@@ -33,7 +33,7 @@ const initialState = {
 
   secondsRemaining: null,
 
-  difficultyLevel: "all",
+  difficultyLevel: null,
 };
 
 function reducer(state, action) {
@@ -57,7 +57,7 @@ function reducer(state, action) {
         ...state,
         difficultyLevel: action.payload,
         filterQuestions: state.questions.filter(
-          (ques) => ques.level === action.payload
+          (ques) => ques.points === Number(action.payload)
         ),
       };
 

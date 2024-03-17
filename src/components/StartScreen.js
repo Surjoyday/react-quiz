@@ -28,10 +28,10 @@ function QuestionLevel({ difficultyLevel, dispatch }) {
           dispatch({ type: "setDifficulty", payload: e.target.value })
         }
       >
-        <option value="all">All</option>
-        <option value="easy">Easy</option>
-        <option value="medium">Medium</option>
-        <option value="hard">Hard</option>
+        <option value="100">All</option>
+        <option value="10">Easy</option>
+        <option value="20">Medium</option>
+        <option value="30">Hard</option>
       </select>
     </div>
   );
