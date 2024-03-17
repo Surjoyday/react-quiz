@@ -6,7 +6,10 @@ export default function NextButton({
   presentAnswer,
 }) {
   if (index === 0 && presentAnswer === null) return null;
-  if (presentAnswer === null)
+  if (
+    presentAnswer === null ||
+    (index === numQuestions - 1 && presentAnswer === null)
+  )
     return (
       <button
         className="btn btn-ui"

@@ -20,14 +20,15 @@ export default function StartScreen({
 function QuestionLevel({ difficultyLevel, dispatch }) {
   return (
     <div className="question-level">
-      <h3>Choose difficulty level : </h3>
-
       <select
         value={difficultyLevel}
         onChange={(e) =>
           dispatch({ type: "setDifficulty", payload: e.target.value })
         }
       >
+        <option value="" disabled>
+          Select difficulty
+        </option>
         <option value="100">All</option>
         <option value="10">Easy</option>
         <option value="20">Medium</option>

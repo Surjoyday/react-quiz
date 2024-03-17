@@ -58,9 +58,12 @@ function reducer(state, action) {
       return {
         ...state,
         difficultyLevel: action.payload,
-        filterQuestions: state.questions.filter(
-          (ques) => ques.points === Number(action.payload)
-        ),
+        filterQuestions:
+          action.payload === "100"
+            ? [...state.questions]
+            : state.questions.filter(
+                (ques) => ques.points === Number(action.payload)
+              ),
       };
 
     case "startGame":
