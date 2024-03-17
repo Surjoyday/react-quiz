@@ -1,11 +1,11 @@
-export default function Options({ question, dispatch, answer }) {
-  const hasAnswered = answer !== null;
+export default function Options({ question, dispatch, answer, presentAnswer }) {
+  const hasAnswered = presentAnswer !== null;
 
   return (
     <div className="options">
       {question.options.map((option, index) => (
         <button
-          className={`btn btn-option ${index === answer ? "answer" : ""} 
+          className={`btn btn-option ${index === presentAnswer ? "answer" : ""} 
           ${
             hasAnswered
               ? index === question.correctOption

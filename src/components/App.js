@@ -23,7 +23,9 @@ const initialState = {
 
   index: 0,
 
-  answer: null,
+  answer: [],
+
+  presentAnswer: null,
 
   points: 0,
 
@@ -63,15 +65,17 @@ function reducer(state, action) {
       return {
         ...state,
         status: "active",
-        secondsRemaining: state.questions.length * SECS_PER_QUESTIONS,
+        secondsRemaining: state.filterQuestions.length * SECS_PER_QUESTIONS,
       };
 
     case "newAnswer":
-      const currentQuestion = state.questions.at(state.index);
+      const currentQuestion = state.filterQuestions.at(state.index);
 
       return {
         ...state,
-        answer: action.payload,
+        answer: [...state.answer, action.payload],
+
+        presentAnswer: action.payload,
 
         points:
           action.payload === currentQuestion.correctOption
@@ -80,7 +84,18 @@ function reducer(state, action) {
       };
 
     case "nextQuestion":
-      return { ...state, index: state.index + 1, answer: null };
+      return {
+        ...state,
+        index: state.index + 1,
+        presentAnswer: null,
+      };
+
+    case "previousQuestion":
+      return {
+        ...state,
+        index: state.index - 1,
+        presentAnswer: state.answer.at(state.index),
+      };
 
     case "endGame":
       const highScore =
@@ -104,6 +119,7 @@ function reducer(state, action) {
       return {
         ...initialState,
         questions: state.questions,
+        filterQuestions: state.questions,
         status: "ready",
         highScore:
           state.points > state.highScore ? state.points : state.highScore,
@@ -127,6 +143,7 @@ export default function App() {
     highScore,
     secondsRemaining,
     difficultyLevel,
+    presentAnswer,
   } = state;
 
   const numQuestions = filterQuestions.length;
@@ -171,6 +188,7 @@ export default function App() {
               question={filterQuestions[index]}
               dispatch={dispatch}
               answer={answer}
+              presentAnswer={presentAnswer}
             />
 
             <Footer>
@@ -180,6 +198,7 @@ export default function App() {
                 answer={answer}
                 index={index}
                 numQuestions={numQuestions}
+                presentAnswer={presentAnswer}
               />
             </Footer>
           </>
