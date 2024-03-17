@@ -216,6 +216,19 @@ progress {
   border-radius: 100px;
 }
 
+/* @keyframes flickerAnimation {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.timer {
+  animation: flickerAnimation 0.5s infinite alternate; 
+} */
+
 /* CREDIT: https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje */
 .loader {
   width: 50px;

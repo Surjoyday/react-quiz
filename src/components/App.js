@@ -1,4 +1,5 @@
 import { useEffect, useReducer } from "react";
+
 import Header from "./Header";
 import Main from "./Main";
 import Loader from "./Loader";
@@ -8,7 +9,10 @@ import Question from "./Question";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
 import FinishScreen from "./FinishScreen";
+import Footer from "./Footer";
+import Timer from "./Timer";
 
+const SECS_PER_QUESTIONS = 30;
 const initialState = {
   questions: [],
 
@@ -22,6 +26,8 @@ const initialState = {
   points: 0,
 
   highScore: 0,
+
+  secondsRemaining: null,
 };
 
 function reducer(state, action) {
@@ -40,7 +46,11 @@ function reducer(state, action) {
       };
 
     case "startGame":
-      return { ...state, status: "active" };
+      return {
+        ...state,
+        status: "active",
+        secondsRemaining: state.questions.length * SECS_PER_QUESTIONS,
+      };
 
     case "newAnswer":
       const currentQuestion = state.questions.at(state.index);
@@ -66,8 +76,21 @@ function reducer(state, action) {
           state.points > state.highScore ? state.points : state.highScore,
       };
 
+    case "tick":
+      return {
+        ...state,
+        secondsRemaining: state.secondsRemaining - 1,
+        status: state.secondsRemaining === 0 ? "finished" : state.status,
+      };
+
     case "restart":
-      return { ...initialState, questions: state.questions, status: "ready" };
+      return {
+        ...initialState,
+        questions: state.questions,
+        status: "ready",
+        highScore:
+          state.points > state.highScore ? state.points : state.highScore,
+      };
 
     default:
       throw new Error("Action unkown");
@@ -77,11 +100,21 @@ function reducer(state, action) {
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const { questions, status, index, answer, points, highScore } = state;
+  const {
+    questions,
+    status,
+    index,
+    answer,
+    points,
+    highScore,
+    secondsRemaining,
+  } = state;
 
   const numQuestions = questions.length;
 
   const maxPoints = questions.reduce((prev, cur) => prev + cur.points, 0);
+
+  // console.log(maxPoints);
 
   useEffect(function () {
     fetch("http://localhost:9000/questions")
@@ -116,12 +149,15 @@ export default function App() {
               answer={answer}
             />
 
-            <NextButton
-              dispatch={dispatch}
-              answer={answer}
-              index={index}
-              numQuestions={numQuestions}
-            />
+            <Footer>
+              <Timer dispatch={dispatch} secondsRemaining={secondsRemaining} />
+              <NextButton
+                dispatch={dispatch}
+                answer={answer}
+                index={index}
+                numQuestions={numQuestions}
+              />
+            </Footer>
           </>
         )}
 
