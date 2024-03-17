@@ -99,7 +99,7 @@ function reducer(state, action) {
       return {
         ...state,
         index: state.index - 1,
-        presentAnswer: state.answer.at(state.index),
+        presentAnswer: state.answer.at(state.index - 1),
       };
 
     case "endGame":
