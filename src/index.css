@@ -4,8 +4,7 @@
   --color-medium: #ced4da;
   --color-light: #f1f3f5;
 
-  --color-theme: #1098ad;
-  --color-accent: #ffa94d;
+  --color-theme: #13a2b8be;
   --color-error: #e52538c6;
   --color-correct: #12ab42;
   --color-wrong: #c32f27;
@@ -40,7 +39,7 @@ body {
 }
 
 .main {
-  width: 40rem;
+  width: 60rem;
 }
 
 .app-header {
@@ -85,6 +84,39 @@ h4 {
   font-weight: 600;
   margin-bottom: 2.4rem;
 }
+
+.highscore-stored {
+  background-color: var(--color-theme);
+  padding: 1.5rem;
+  border-radius: 1rem;
+}
+
+.question-level {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 4rem;
+}
+
+.question-level h3 {
+  color: var(--color-theme);
+  margin: 0;
+}
+
+.question-level select {
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 7px;
+  padding: 0.5rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  background-color: var(--color-light);
+}
+
+/* .question-level h3 {
+  margin-right: 10px;
+  margin-bottom: 4rem;
+} */
 
 .start {
   display: flex;
@@ -216,7 +248,7 @@ progress {
   border-radius: 100px;
 }
 
-/* @keyframes flickerAnimation {
+@keyframes flickerAnimation {
   from {
     opacity: 1;
   }
@@ -226,8 +258,8 @@ progress {
 }
 
 .timer {
-  animation: flickerAnimation 0.5s infinite alternate; 
-} */
+  animation: flickerAnimation 0.6s infinite alternate;
+}
 
 /* CREDIT: https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje */
 .loader {

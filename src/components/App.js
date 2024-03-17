@@ -16,6 +16,8 @@ const SECS_PER_QUESTIONS = 30;
 const initialState = {
   questions: [],
 
+  filterQuestions: [],
+
   // "loading", "error", "ready", "active", "finished"
   status: "loading",
 
@@ -25,9 +27,11 @@ const initialState = {
 
   points: 0,
 
-  highScore: 0,
+  highScore: JSON.parse(localStorage.getItem("highScore")),
 
   secondsRemaining: null,
+
+  difficultyLevel: "all",
 };
 
 function reducer(state, action) {
@@ -37,12 +41,22 @@ function reducer(state, action) {
         ...state,
         questions: action.payload,
         status: "ready",
+        filterQuestions: action.payload,
       };
 
     case "dataFailed":
       return {
         ...state,
         status: "error",
+      };
+
+    case "setDifficulty":
+      return {
+        ...state,
+        difficultyLevel: action.payload,
+        filterQuestions: state.questions.filter(
+          (ques) => ques.level === action.payload
+        ),
       };
 
     case "startGame":
@@ -69,11 +83,14 @@ function reducer(state, action) {
       return { ...state, index: state.index + 1, answer: null };
 
     case "endGame":
+      const highScore =
+        state.points > state.highScore ? state.points : state.highScore;
+
+      localStorage.setItem("highScore", JSON.stringify(highScore));
       return {
         ...state,
         status: "finished",
-        highScore:
-          state.points > state.highScore ? state.points : state.highScore,
+        highScore,
       };
 
     case "tick":
@@ -102,15 +119,17 @@ export default function App() {
 
   const {
     questions,
+    filterQuestions,
     status,
     index,
     answer,
     points,
     highScore,
     secondsRemaining,
+    difficultyLevel,
   } = state;
 
-  const numQuestions = questions.length;
+  const numQuestions = filterQuestions.length;
 
   const maxPoints = questions.reduce((prev, cur) => prev + cur.points, 0);
 
@@ -131,7 +150,12 @@ export default function App() {
         {status === "loading" && <Loader />}
         {status === "error" && <Error />}
         {status === "ready" && (
-          <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
+          <StartScreen
+            numQuestions={numQuestions}
+            dispatch={dispatch}
+            highScore={highScore}
+            difficultyLevel={difficultyLevel}
+          />
         )}
         {status === "active" && (
           <>
@@ -144,7 +168,7 @@ export default function App() {
             />
 
             <Question
-              question={questions[index]}
+              question={filterQuestions[index]}
               dispatch={dispatch}
               answer={answer}
             />
