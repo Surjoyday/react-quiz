@@ -153,7 +153,7 @@ export default function App() {
   // console.log(maxPoints);
 
   useEffect(function () {
-    fetch("")
+    fetch("https://my-json-server.typicode.com/Surjoyday/react-quiz/questions/")
       .then((res) => res.json())
       .then((data) => dispatch({ type: "dataReceived", payload: data }))
       .catch((err) => dispatch({ type: "dataFailed" }));
