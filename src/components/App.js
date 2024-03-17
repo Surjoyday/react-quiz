@@ -29,11 +29,13 @@ const initialState = {
 
   points: 0,
 
-  highScore: JSON.parse(localStorage.getItem("highScore")),
+  highScore: localStorage.getItem("highScore")
+    ? JSON.parse(localStorage.getItem("highScore"))
+    : 0,
 
   secondsRemaining: null,
 
-  difficultyLevel: null,
+  difficultyLevel: "",
 };
 
 function reducer(state, action) {
