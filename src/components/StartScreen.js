@@ -1,9 +1,8 @@
-export default function StartScreen({
-  numQuestions,
-  dispatch,
-  highScore,
-  difficultyLevel,
-}) {
+import { useQuiz } from "../context/QuizContext";
+
+export default function StartScreen() {
+  const { numQuestions, dispatch, highScore, difficultyLevel } = useQuiz();
+
   const canStart = difficultyLevel !== "";
   return (
     <div className="start">

@@ -251,9 +251,9 @@ progress {
   }
 }
 
-.timer {
+/* .timer {
   animation: flickerAnimation 0.6s infinite alternate;
-}
+} */
 
 /* CREDIT: https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje */
 .loader {
